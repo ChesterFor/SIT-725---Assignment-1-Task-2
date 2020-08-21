@@ -161,6 +161,17 @@
             }
 
         }
+
+        push() {
+
+            let card = document.createElement('div')
+            card.classList.add('card')
+
+            card.style.backgroundImage = "url('http://lorempixel.com/320/320/people" + Math.round(Math.random()*1000000) + "')"
+
+            this.board.insertBefore(card, this.board.firstChild)
+
+        }
          
         let board = document.querySelector('#board')
 
