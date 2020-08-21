@@ -67,6 +67,9 @@
                         threshold: 0
                     }))
 
+                    // destroy previous Hammer instance, if present
+                    if (this.hammer) this.hammer.destroy()
+
                     // pass events data to custom callbacks
                     this.hammer.on('pan', (e) => {
                         this.onPan(e)
