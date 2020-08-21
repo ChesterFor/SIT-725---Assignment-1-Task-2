@@ -79,6 +79,30 @@
 
             }
 
+            onTap(e) {
+
+                // get finger position on top card
+                let propX = (e.center.x - e.target.getBoundingClientRect().left) / e.target.clientWidth
+
+                // get rotation degrees around Y axis (+/- 15) based on finger position
+                let rotateY = 15 * (propX < 0.05 ? -1 : 1)
+
+                // enable transform transition
+                this.topCard.style.transition = 'transform 100ms ease-out'
+
+                // apply rotation around Y axis
+                this.topCard.style.transform =
+                    'translateX(-50%) translateY(-50%) rotate(0deg) rotateY(' + rotateY + 'deg) scale(1)'
+
+                // wait for transition end
+                setTimeout(() => {
+                    // reset transform properties
+                    this.topCard.style.transform =
+                        'translateX(-50%) translateY(-50%) rotate(0deg) rotateY(0deg) scale(1)'
+                }, 100)
+
+            }
+
             onPan(e) {
 
                 if (!this.isPanning) {
@@ -120,6 +144,20 @@
                 // move and rotate card
                 this.topCard.style.transform =
                 'translateX(' + posX + 'px) translateY(' + posY + 'px) rotate(' + deg + 'deg)'
+
+                // get degrees of rotation, between 0 and +/- 45
+                let deg = this.isDraggingFrom * dirX * Math.abs(propX) * 45
+
+                // get scale ratio, between .95 and 1
+                let scale = (95 + (5 * Math.abs(propX))) / 100
+
+                // move and rotate top card
+                this.topCard.style.transform =
+                    'translateX(' + posX + 'px) translateY(' + posY + 'px) rotate(' + deg + 'deg) rotateY(0deg) scale(1)'
+
+                // scale up next card
+                if (this.nextCard) this.nextCard.style.transform =
+                    'translateX(-50%) translateY(-50%) rotate(0deg) rotateY(0deg) scale(' + scale + ')'
 
                 if (e.isFinal) {
                 
